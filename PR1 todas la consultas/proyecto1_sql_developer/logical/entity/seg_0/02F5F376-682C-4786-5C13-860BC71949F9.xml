@@ -1,0 +1,73 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="02F5F376-682C-4786-5C13-860BC71949F9" name="Aerolinea">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 17:01:46 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="OACI" id="CA185B49-C7D3-BB41-7A32-1D33A9482C0C">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 17:01:55 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="pais" id="7D6D7059-EB1A-53DC-970D-75E55B141192">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 17:02:31 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ciudad" id="20039511-C3BD-A8F8-DC1D-7BBF9FB70BFB">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 17:02:48 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="1E9EC457-2E31-74BE-F2AE-C921C0C3A7B5" name="Aerolinea PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 17:02:23 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>CA185B49-C7D3-BB41-7A32-1D33A9482C0C</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

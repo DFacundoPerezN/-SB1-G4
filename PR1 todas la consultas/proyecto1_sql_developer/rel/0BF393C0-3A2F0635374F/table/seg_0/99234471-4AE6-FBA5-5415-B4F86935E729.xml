@@ -1,0 +1,122 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="99234471-4AE6-FBA5-5415-B4F86935E729" name="Vuelo">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>AFECFBCB-1256-E554-BE25-0AA1DDD31D9D</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_Vuelo" id="61962497-8E07-FC1B-92B2-22D111972227">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>D03B59C5-74FF-439E-2F6E-522F49A044F7</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha_salida" id="CEED3383-02EE-4C70-D8D9-96EC02404377">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>45A36980-54C1-058B-1674-A2890B861805</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha_llegada" id="121C2696-78E8-C547-3454-25F13F885E69">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>DE0A0BA6-0561-1AAE-E0D1-6B21C70B7425</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="duracion_aproximada_hrs" id="5442D173-E7EB-AB2D-8E92-2B8C70BDB8A2">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>D5E0B077-2309-66F7-3337-0A83B1C05D52</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT018</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Aerolinea_OACI" id="8A9E8C75-DDB7-2D12-EBB5-E0FF0653D1F9">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>A19F766E-8193-12C9-3908-4E81A7454FDD</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CE7B32D2-1694-E221-FC97-CC903570C315" referredColumn="95B18B9D-7C74-BA8F-F761-2AA53BB38F09"/>
+</associations>
+</Column>
+<Column name="Avion_Matricula" id="04FEC851-180F-0946-865B-B414C4D1C6CD">
+<createdBy>jorge</createdBy>
+<createdTime>2024-09-06 02:16:53 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="370EE9ED-9AB9-82CC-50BB-B5D57A6A1E88" referredColumn="14E48648-7D7E-0A5D-5B27-8239E2382022"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="569C60F9-3C0E-44B7-857B-548C48CC1AB7" name="Vuelo_PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>EF6A00CC-6D50-6781-2D65-6B46F4DF5AB7</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="61962497-8E07-FC1B-92B2-22D111972227"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="44EAB39B-AD36-9E15-3008-2D6881522334" name="Vuelo_Aerolinea_FK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>74F7DED2-566B-E273-682A-674269153DC2</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8A9E8C75-DDB7-2D12-EBB5-E0FF0653D1F9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="627EDFD5-5A84-830C-B083-D6BF8DE7A4FB" name="Vuelo_Avion_FK">
+<createdBy>jorge</createdBy>
+<createdTime>2024-09-06 02:16:53 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="04FEC851-180F-0946-865B-B414C4D1C6CD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,112 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C658253E-7249-B6B7-BF53-708AD1DB0FA7" name="Empleados">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>D6B1798E-BB19-6DBB-A83D-224B3718D75F</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_Empleado" id="77394658-D93E-9D8B-4BAF-526477209CF4">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>B19A0172-CCD6-659D-EE38-F758A4B33DBF</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombres" id="9C088B87-E46E-5A20-BDFC-72C29EC43A79">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>09BBE113-A213-3FBC-7C00-22467D2495F2</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="apellidos" id="33DFC5E3-156F-4582-0B88-599176E7AC06">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>98DAB831-14BE-4F76-89A6-AE250752A54B</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="9F85FDC2-0FF0-996C-CF00-8EED7F46FE39">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>CCC50488-0748-DD70-3ECC-9F8C042DC02F</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="telefono" id="B8A1D0E0-2EDB-9056-074A-3EB28F0E2E26">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>28FB5823-3DA2-990F-763C-A080C8F96AAA</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Puesto_ID_Puesto" id="B76D7890-3ED3-5598-8522-AEE385FC0C9C">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>B336595C-B0BC-F663-9AD6-084A14A54D08</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4F111293-E5B7-8F35-47DE-6A0DEF20068F" referredColumn="3D3F5091-3801-320F-8F04-2A9DDFDAEECA"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="635A17BD-F51B-6D8C-1E16-BBD33AFFC42C" name="Empleados_PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>4FE5B89B-C24F-5D78-3FF7-06FA7E0D4AD6</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="77394658-D93E-9D8B-4BAF-526477209CF4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="51DE1910-3936-A2BC-DC31-B20583C0DA7E" name="Empleados_Puesto_FK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>246691FA-7D6E-A351-B44D-576270D66AFF</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B76D7890-3ED3-5598-8522-AEE385FC0C9C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

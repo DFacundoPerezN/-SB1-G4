@@ -1,0 +1,124 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="CA02D350-D3CF-BD0C-A0B5-FBAF60D5C0E4" name="Ruta">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 19:02:05 UTC</createdTime>
+<generatorID>EFBEE9D5-2416-2150-15DD-04FD427DABCA</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_Ruta" id="E0EBE9D7-CB56-FF1D-A6A7-9BD4E3552CB8">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 19:02:05 UTC</createdTime>
+<generatorID>9968EF5C-DA9C-D947-163F-2299F092C94A</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="distancia" id="FD771646-6DEB-091A-1FBC-70FB33FC3076">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 19:02:05 UTC</createdTime>
+<generatorID>8D270A82-AA80-9BB5-FB24-589B1943FD60</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT018</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="origen" id="580BF78D-D6AF-0950-11BA-79A4B15405C9">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 19:02:05 UTC</createdTime>
+<generatorID>6DE8FD68-2696-DE11-2E60-28508E5B6685</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3</dataTypeSize>
+<ownDataTypeParameters>3,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B730E270-F023-2592-0276-7D7FC6958303" referredColumn="D99809C5-FFEF-F369-CE71-A842180B1B60"/>
+</associations>
+</Column>
+<Column name="destino" id="CD6C25B5-0028-1C1B-75B5-38B3046868BF">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 19:02:05 UTC</createdTime>
+<generatorID>B33C2338-5D6C-1B19-C3DC-E7C3D93EE959</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3</dataTypeSize>
+<ownDataTypeParameters>3,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="443608B4-74B5-4D37-A96B-66F6793BCF33" referredColumn="D99809C5-FFEF-F369-CE71-A842180B1B60"/>
+</associations>
+</Column>
+<Column name="Vuelo_ID_Vuelo" id="D46CBE7F-7308-D643-32E1-CD17CBE52C0C">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>0ED084CC-B254-5513-088F-3F0BD0640CC4</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="72185407-0068-3DB0-2C0D-145EE230D224" referredColumn="61962497-8E07-FC1B-92B2-22D111972227"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F1928327-40AC-6D93-9740-83CFC11421D2" name="Ruta_PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 19:02:05 UTC</createdTime>
+<generatorID>410747EA-B495-3D4A-E1E8-068F1BD77D70</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E0EBE9D7-CB56-FF1D-A6A7-9BD4E3552CB8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B63F8D0A-436D-45A5-3F6A-CC1E1F78DF91" name="Ruta_Aeropuerto_FK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 19:02:33 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="580BF78D-D6AF-0950-11BA-79A4B15405C9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="85763149-946F-88AC-7540-3BEE3AB420C3" name="Ruta_Aeropuerto_FKv1">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 19:02:33 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CD6C25B5-0028-1C1B-75B5-38B3046868BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2C36751A-5EA4-A21E-0D9B-C4A7D9FDCCD3" name="Ruta_Vuelo_FK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>C43005B6-0B4B-A2E5-C876-737FDE803343</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D46CBE7F-7308-D643-32E1-CD17CBE52C0C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

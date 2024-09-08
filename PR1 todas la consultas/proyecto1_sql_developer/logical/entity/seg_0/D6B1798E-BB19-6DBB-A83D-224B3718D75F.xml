@@ -1,0 +1,113 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D6B1798E-BB19-6DBB-A83D-224B3718D75F" name="Empleados">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:01:57 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_Empleado" id="B19A0172-CCD6-659D-EE38-F758A4B33DBF">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:02:01 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nombres" id="09BBE113-A213-3FBC-7C00-22467D2495F2">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:02:11 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="apellidos" id="98DAB831-14BE-4F76-89A6-AE250752A54B">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:11:24 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email" id="CCC50488-0748-DD70-3ECC-9F8C042DC02F">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:11:44 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="telefono" id="28FB5823-3DA2-990F-763C-A080C8F96AAA">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:11:51 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_Puesto" id="B336595C-B0BC-F663-9AD6-084A14A54D08">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:17:27 UTC</createdTime>
+<generatorID>246691FA-7D6E-A351-B44D-576270D66AFF</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<referedAttribute>9070246F-B7F7-2ADA-7D98-5A4837FAAE0B</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="4FE5B89B-C24F-5D78-3FF7-06FA7E0D4AD6" name="Empleados PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:02:10 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>B19A0172-CCD6-659D-EE38-F758A4B33DBF</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

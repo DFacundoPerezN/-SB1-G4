@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="A77A7948-C7D1-7958-97FF-611C4C36DF35" name="Historial_Vuelo">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>AA9D9D78-E816-0161-8CD0-EF63B20EB734</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_Historial_Vuelo" id="9E336CF3-B16B-BD06-CAF3-8D947A98D494">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>737E6685-EA4D-231B-2E1E-17587E0BB8C5</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Empleados_ID_Empleado" id="77C7D452-35BC-9787-3C88-59DF5C869B0B">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>77E9A35F-C9B3-6E26-857B-A97721D7AC99</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A951EF51-3A54-D7B4-162E-663C0AD876A9" referredColumn="77394658-D93E-9D8B-4BAF-526477209CF4"/>
+</associations>
+</Column>
+<Column name="Vuelo_ID_Vuelo" id="CB1CB36F-43EA-CE0D-B797-06F11685E5A0">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:52:41 UTC</createdTime>
+<generatorID>1F32F7CF-1D92-CE0C-1C7C-E237425F623F</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D54912DE-5BC7-6A60-1A64-8D59B117F3D7" referredColumn="61962497-8E07-FC1B-92B2-22D111972227"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="FD24F10B-FAC8-DF9B-977B-FDA552CA1C1A" name="Historial_Vuelo_PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>3D045B9B-DD07-8F0B-841E-A55E0D74545F</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9E336CF3-B16B-BD06-CAF3-8D947A98D494"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="61F573C8-208D-B6C0-32E2-DB824EF206C2" name="Historial_Vuelo_Empleados_FK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>A1B37CC9-65FC-37B6-246B-941821898D1F</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="77C7D452-35BC-9787-3C88-59DF5C869B0B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3FBE71D7-FC77-09DB-01F1-8951E3A6CC33" name="Historial_Vuelo_Vuelo_FK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:52:41 UTC</createdTime>
+<generatorID>4A555B84-A7AB-71D3-843E-8CA586151ECF</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CB1CB36F-43EA-CE0D-B797-06F11685E5A0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

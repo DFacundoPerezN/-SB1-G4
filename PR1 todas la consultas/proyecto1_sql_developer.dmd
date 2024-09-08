@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="puta" id="14698C4E-508E-B04E-A191-FAA3DCD1A749" version="3.5">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 16:13:15 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>14698C4E-508E-B04E-A191-FAA3DCD1A749</designId>
+</OSDM_Design>

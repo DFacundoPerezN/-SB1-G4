@@ -1,0 +1,136 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="2F4C8BEF-EE12-5EE7-1366-FBA219E62D8D" name="Pasajeros">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>A26AAB61-06E9-1DA8-75F2-8286981B8A60</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_Pasajero" id="A8142AF8-CAF1-8E2F-47EC-E4AC25540C3A">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>7BEFAD46-03DA-6626-6DFD-FEBE2A0C1DAF</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre" id="9FE367D1-F855-D408-8116-F0EB7145E18B">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>AAF3ED0F-9EBF-DEB2-2B36-5DEFA09393C1</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="apellido" id="99CEEE50-B108-8143-A7A9-5C0855D1F8BF">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>3C1842E4-9371-FF26-F608-EFE5D7A657E5</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="telefono" id="4E915545-F679-185A-0CF4-1F728053F8B2">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>24066C86-F0C0-51D2-EA0B-0C17F01DA99C</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="AD608C46-306D-BAD7-2AF7-9E7240C1473C">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>1573621F-AA90-A98E-037B-3DCF10FC2726</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pasaporte_y_o_visa" id="5320064C-8944-2F21-B619-5257B252481C">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>BD4E25B2-6576-634B-7F98-7D8E20D9F282</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Reserva_ID_Reserva" id="D3A5D839-FCB1-BECC-8669-F209559976CD">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:32:24 UTC</createdTime>
+<generatorID>835524F0-8620-46FF-40ED-50988BBBDB8E</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BE6CACCD-8356-EA56-E640-E354CC21BBBD" referredColumn="35D79864-EEC8-2AF4-1B2B-85BB42019206"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4926B6B3-EE40-B12A-2573-2C4F38A1F42C" name="Pasajeros_PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:40:39 UTC</createdTime>
+<generatorID>8ADC2FE8-A435-D384-C4DA-9E4CE7F4CBE3</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A8142AF8-CAF1-8E2F-47EC-E4AC25540C3A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="33FB5E7C-68A1-29D7-C366-18539A1675CA" name="Pasajeros__IDX">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:32:24 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>6BF546C4-273F-8369-DDB6-14FCB766BC21</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="D3A5D839-FCB1-BECC-8669-F209559976CD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="628D6D0D-9C6C-13EF-DF11-479B7E7A0A5A" name="Pasajeros_Reserva_FK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:32:24 UTC</createdTime>
+<generatorID>6BF546C4-273F-8369-DDB6-14FCB766BC21</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D3A5D839-FCB1-BECC-8669-F209559976CD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

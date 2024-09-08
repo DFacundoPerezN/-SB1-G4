@@ -1,0 +1,145 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="FCD66A2C-8ACD-64E0-5E21-E195690648EB" name="Boleto">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:21:54 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_Boleto" id="8034A535-0B46-D388-2A4C-D1103A3C08AB">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:21:54 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<importedID>0A899627-EAE1-7539-B857-7D099254F96D</importedID>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Precio_Boleto" id="12090F56-A90F-A5C5-27FF-BBC087E84A40">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:21:54 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<importedID>41142D81-C5FD-1C0E-CA85-76DC556E6B07</importedID>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<dataTypePrecision>6</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,6,2</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Fecha_Vuelo" id="181BDF7A-F6BB-AC6B-DA6D-204020E92DB3">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:21:54 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<importedID>165984E0-E9C2-250D-EBB7-8232D6D0E70A</importedID>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="No_Asiento_Vuelo" id="81D6B920-A655-659B-FFE3-E441DBC71795">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:21:54 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<importedID>478A76FD-9757-A62F-71E1-6FA6C6899EB6</importedID>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Metodo_Pago_Boleto" id="9C26E20E-AFAF-6936-8894-C40CA4FB6F8F">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:21:54 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<importedID>9213EC6E-FC68-1D68-93CC-C02A9E2339F4</importedID>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_Reserva" id="BF49D2C0-9365-59F2-FEDB-D90631FC8389">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:21:54 UTC</createdTime>
+<generatorID>ECAAD824-ACFC-3C16-874F-FE754DB783FE</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<importedID>10779E92-F229-3FA6-EA21-90FF62443CA6</importedID>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<referedAttribute>0FCF0B34-BFA2-FEFF-D3B2-8F8BF4DC0668</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_Pasajero" id="2E8973BF-65B8-BB84-51A1-4BEE0E9346FC">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:25:00 UTC</createdTime>
+<generatorID>6328D3A2-E3BE-4C9C-16A8-4D05AD95B149</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<referedAttribute>7BEFAD46-03DA-6626-6DFD-FEBE2A0C1DAF</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_Vuelo" id="E8FAB2BD-2F3C-0367-A4D6-66107B516C58">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:31:09 UTC</createdTime>
+<generatorID>831F253C-180F-09A6-BADD-3F7D4D8207B2</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<referedAttribute>D03B59C5-74FF-439E-2F6E-522F49A044F7</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="6A0042F2-5229-0C0F-AAB8-965AF95EA4D4" name="Boleto PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 22:21:54 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>8034A535-0B46-D388-2A4C-D1103A3C08AB</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

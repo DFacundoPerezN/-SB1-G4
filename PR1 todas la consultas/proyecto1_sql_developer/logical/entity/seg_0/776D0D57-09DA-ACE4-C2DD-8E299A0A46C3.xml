@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="776D0D57-09DA-ACE4-C2DD-8E299A0A46C3" name="Puesto">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:12:55 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_Puesto" id="9070246F-B7F7-2ADA-7D98-5A4837FAAE0B">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:13:00 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nombre" id="4BDB50ED-3CCB-87BD-39A4-D8E3349032B2">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:13:11 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="65C3FF19-ABA2-534F-3BDF-3BC1DE1560AB" name="Puesto PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:13:10 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>9070246F-B7F7-2ADA-7D98-5A4837FAAE0B</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,74 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="AA9D9D78-E816-0161-8CD0-EF63B20EB734" name="Historial_Vuelo">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:01:15 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_Historial_Vuelo" id="737E6685-EA4D-231B-2E1E-17587E0BB8C5">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:01:21 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_Empleado" id="77E9A35F-C9B3-6E26-857B-A97721D7AC99">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:22:07 UTC</createdTime>
+<generatorID>A1B37CC9-65FC-37B6-246B-941821898D1F</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<referedAttribute>B19A0172-CCD6-659D-EE38-F758A4B33DBF</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_Vuelo" directorySegmentName="seg_0" id="1F32F7CF-1D92-CE0C-1C7C-E237425F623F">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:52:29 UTC</createdTime>
+<generatorID>4A555B84-A7AB-71D3-843E-8CA586151ECF</generatorID>
+<ownerDesignName>puta</ownerDesignName>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="true"/>
+</engineerTo>
+<referedAttribute>D03B59C5-74FF-439E-2F6E-522F49A044F7</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="3D045B9B-DD07-8F0B-841E-A55E0D74545F" name="Tripulacion PK">
+<createdBy>EQUIPO</createdBy>
+<createdTime>2024-09-05 21:01:28 UTC</createdTime>
+<ownerDesignName>puta</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="0BF393C0-24AA-9537-B397-3A2F0635374F" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>737E6685-EA4D-231B-2E1E-17587E0BB8C5</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
