@@ -303,7 +303,7 @@ INSERT INTO historial_vuelo (id_historial_vuelo, empleados_id_empleado, vuelo_id
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
     VALUES (1, 222.00, TO_DATE('2024-09-11', 'YYYY-MM-DD'), 12, 'Tarjeta de crédito', 1, 1, 1);
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
-    VALUES (2, 150.00, TO_DATE('2024-09-11', 'YYYY-MM-DD'), 12, 'Tarjeta de crédito', 2, 2, 1);
+    VALUES (2, 150.00, TO_DATE('2024-09-11', 'YYYY-MM-DD'), 11, 'Tarjeta de crédito', 2, 2, 1);
 --Mas Boletos
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
     VALUES (3, 100.00, TO_DATE('2024-10-11', 'YYYY-MM-DD'), 30, 'Tarjeta de crédito', 3, 3, 1);
@@ -318,17 +318,17 @@ INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, met
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
     VALUES (8, 902.60, TO_DATE('2024-02-29', 'YYYY-MM-DD'), 25, 'Tarjeta de crédito', 8, 8, 1);
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
-    VALUES (9, 902.60, TO_DATE('2024-01-12', 'YYYY-MM-DD'), 25, 'Tarjeta de crédito', 9, 9, 1);
+    VALUES (9, 902.60, TO_DATE('2024-01-12', 'YYYY-MM-DD'), 24, 'Tarjeta de crédito', 9, 9, 1);
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
-    VALUES (10, 902.60, TO_DATE('2024-09-26', 'YYYY-MM-DD'), 25, 'Tarjeta de crédito', 10, 10, 2);
+    VALUES (10, 902.60, TO_DATE('2024-09-26', 'YYYY-MM-DD'), 23, 'Tarjeta de crédito', 10, 10, 2);
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
-    VALUES (11, 902.60, TO_DATE('2024-07-14', 'YYYY-MM-DD'), 25, 'Tarjeta de crédito', 11, 11, 2);
+    VALUES (11, 902.60, TO_DATE('2024-07-14', 'YYYY-MM-DD'), 22, 'Tarjeta de crédito', 11, 11, 2);
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
-    VALUES (12, 902.60, TO_DATE('2024-10-31', 'YYYY-MM-DD'), 25, 'Tarjeta de crédito', 12, 12, 1);
+    VALUES (12, 902.60, TO_DATE('2024-10-31', 'YYYY-MM-DD'), 21, 'Tarjeta de crédito', 12, 12, 1);
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
-    VALUES (13, 902.60, TO_DATE('2024-07-04', 'YYYY-MM-DD'), 25, 'Tarjeta de crédito', 13, 13, 2);
+    VALUES (13, 902.60, TO_DATE('2024-07-04', 'YYYY-MM-DD'), 22, 'Tarjeta de crédito', 13, 13, 2);
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
-    VALUES (14, 902.60, TO_DATE('2024-11-20', 'YYYY-MM-DD'), 25, 'Tarjeta de crédito', 14, 14, 1);
+    VALUES (14, 902.60, TO_DATE('2024-11-20', 'YYYY-MM-DD'), 20, 'Tarjeta de crédito', 14, 14, 1);
 INSERT INTO boleto (id_boleto, precio_boleto, fecha_vuelo, no_asiento_vuelo, metodo_pago_boleto, reserva_id_reserva, pasajeros_id_pasajero, vuelo_id_vuelo)
-    VALUES (15, 902.60, TO_DATE('2024-05-06', 'YYYY-MM-DD'), 25, 'Tarjeta de crédito', 15, 15, 1);
+    VALUES (15, 902.60, TO_DATE('2024-05-06', 'YYYY-MM-DD'), 18, 'Tarjeta de crédito', 15, 15, 1);
 
