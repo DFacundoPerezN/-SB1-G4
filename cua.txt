@@ -1,1 +1,0 @@
-id_orden	linea_orden	fecha_orden	id_cliente	id_vendedor	id_producto	cantidad	nombre_vendedor	pais_vendedor
