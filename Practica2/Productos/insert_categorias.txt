@@ -1,0 +1,17 @@
+INSERT INTO Categorias (id_categoria, categoria) VALUES
+(14, 'Ciencia Ficcion'),
+(6, 'Documentales'),
+(3, 'Kids'),
+(9, 'Extrajeros'),
+(8, 'Familiar'),
+(7, 'Drama'),
+(2, 'Animacion'),
+(15, 'Deportes'),
+(4, 'Clasicos'),
+(11, 'Horror'),
+(16, 'Viajes'),
+(10, 'Juegos'),
+(1, 'Accion'),
+(12, 'Musica'),
+(13, 'Nuevo'),
+(5, 'Comedia');
