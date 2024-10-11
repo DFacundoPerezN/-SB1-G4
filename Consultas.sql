@@ -149,15 +149,23 @@ UNION ALL
 SELECT * FROM MenosCompradas;
 
 --7
-SELECT TO_CHAR(lo.fecha_orden, 'YYYY-MM') AS mes,
-       SUM(lo.cantidad * p.precio) AS monto_vendido
-FROM linea_orden lo
-JOIN clientes c ON lo.id_cliente = c.id_cliente
-JOIN productos p ON lo.id_producto = p.id_producto
-WHERE c.pais = 'Estados Unidos'
-GROUP BY TO_CHAR(lo.fecha_orden, 'YYYY-MM')
-ORDER BY mes;
-
+ SELECT
+    TO_CHAR(lo.fecha_orden, 'YYYY-MM') AS mes,
+    SUM(CAST(p.precio AS DECIMAL(10, 2)) * lo.cantidad) AS monto_vendido
+FROM
+    linea_orden lo
+JOIN
+    orden o ON lo.id_orden = o.id_orden
+JOIN
+    productos p ON lo.id_producto = p.id_producto
+JOIN
+    vendedor v ON lo.id_vendedor = v.id_vendedor
+WHERE
+    v.pais_vendedor = 'Inglaterra'
+GROUP BY
+    TO_CHAR(lo.fecha_orden, 'YYYY-MM')
+ORDER BY
+    mes;
 
 --8
 --Vista
