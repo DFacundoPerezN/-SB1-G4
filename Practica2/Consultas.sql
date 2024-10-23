@@ -89,6 +89,7 @@ GROUP BY c.id_cliente, c.nombre, c.apellido, c.edad, c.pais
 ORDER BY monto_total_gastado DESC
 FETCH FIRST 1 ROWS ONLY;
 
+
 --5
 -- Vista
 CREATE OR REPLACE VIEW compras_por_pais_cliente AS
@@ -148,10 +149,11 @@ SELECT * FROM MasCompradas
 UNION ALL
 SELECT * FROM MenosCompradas;
 
+
 --7
  SELECT
     TO_CHAR(lo.fecha_orden, 'YYYY-MM') AS mes,
-    SUM(CAST(p.precio AS DECIMAL(10, 2)) * lo.cantidad) AS monto_vendido
+    SUM(p.precio * lo.cantidad) AS monto_vendido
 FROM
     linea_orden lo
 JOIN
@@ -166,6 +168,7 @@ GROUP BY
     TO_CHAR(lo.fecha_orden, 'YYYY-MM')
 ORDER BY
     mes;
+
 
 --8
 --Vista
@@ -224,6 +227,7 @@ JOIN linea_orden lo ON lo.id_producto = p.id_producto
 WHERE c.categoria = 'Familiar'
 GROUP BY p.id_producto, p.nombre
 ORDER BY p.id_producto;
+
 
 --10
 SELECT TO_CHAR(lo.fecha_orden, 'YYYY-MM') AS mes,
