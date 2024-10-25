@@ -349,3 +349,256 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20009, 'Error al registrar el vuelo: ' || SQLERRM);
 END;
 /
+
+
+-- ASIGNAR TRIPULACION
+CREATE OR REPLACE PROCEDURE AsignarTripulacion(
+    codigo_empleado IN NUMBER,
+    codigo_vuelo IN NUMBER
+) AS
+    v_aerolinea_vuelo NUMBER;
+    v_aerolinea_empleado NUMBER;
+    v_cargo VARCHAR2(50);
+    v_count NUMBER;
+    v_fecha_hora_salida DATE;
+    v_fecha_hora_llegada DATE;
+    v_pilotos NUMBER;
+    v_servidores NUMBER;
+BEGIN
+    -- Obtener la aerolínea del vuelo
+    SELECT aerolinea_id, fecha_hora_salida, fecha_hora_llegada 
+    INTO v_aerolinea_vuelo, v_fecha_hora_salida, v_fecha_hora_llegada
+    FROM vuelo 
+    WHERE no_vuelo = codigo_vuelo;
+
+    -- Obtener la aerolínea y cargo del empleado
+    SELECT aerolinea_id, cargo 
+    INTO v_aerolinea_empleado, v_cargo
+    FROM empleado 
+    WHERE id_empleado = codigo_empleado;
+
+    -- Validar que el empleado pertenece a la misma aerolínea que el vuelo
+    IF v_aerolinea_vuelo != v_aerolinea_empleado THEN
+        RAISE_APPLICATION_ERROR(-20001, 'El empleado no pertenece a la misma aerolínea que el vuelo.');
+    END IF;
+
+    -- Validar que el empleado no esté asignado a otro vuelo en el mismo horario
+    SELECT COUNT(*) INTO v_count
+    FROM vuelo_empleado ve
+    JOIN vuelo v ON ve.codigo_vuelo = v.no_vuelo
+    WHERE ve.codigo_empleado = codigo_empleado
+      AND ((v.fecha_hora_salida BETWEEN v_fecha_hora_salida AND v_fecha_hora_llegada)
+           OR (v.fecha_hora_llegada BETWEEN v_fecha_hora_salida AND v_fecha_hora_llegada));
+
+    IF v_count > 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El empleado ya está asignado a otro vuelo en el mismo horario.');
+    END IF;
+
+    -- Validar que no se puedan asignar empleados de ventanilla a los vuelos
+    IF v_cargo = 'ventanilla' THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Los empleados de ventanilla no pueden ser asignados a vuelos.');
+    END IF;
+
+    -- Contar cuántos pilotos y servidores ya están asignados al vuelo
+    SELECT COUNT(CASE WHEN cargo = 'piloto' OR cargo = 'copiloto' THEN 1 END),
+           COUNT(CASE WHEN cargo = 'servidor' THEN 1 END)
+    INTO v_pilotos, v_servidores
+    FROM vuelo_empleado ve
+    JOIN empleado e ON ve.codigo_empleado = e.id_empleado
+    WHERE ve.codigo_vuelo = codigo_vuelo;
+
+    -- Validar que haya un mínimo de 2 pilotos (piloto y copiloto)
+    IF v_cargo IN ('piloto', 'copiloto') AND v_pilotos >= 2 THEN
+        RAISE_APPLICATION_ERROR(-20004, 'Ya hay suficientes pilotos asignados a este vuelo.');
+    END IF;
+
+    -- Validar que haya un mínimo de 3 empleados como servidores
+    IF v_cargo = 'servidor' AND v_servidores >= 3 THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Ya hay suficientes servidores asignados a este vuelo.');
+    END IF;
+
+    -- Asignar el empleado al vuelo
+    INSERT INTO vuelo_empleado(codigo_empleado, codigo_vuelo)
+    VALUES (codigo_empleado, codigo_vuelo);
+
+    DBMS_OUTPUT.PUT_LINE('Empleado asignado correctamente al vuelo.');
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20006, 'El vuelo o el empleado no existen.');
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20007, 'Error al asignar el empleado al vuelo: ' || SQLERRM);
+END;
+/
+
+
+-- COMPRA DE BOLETOS
+-- nota: No se si el valor 0 es del empleado o de la reserva
+CREATE OR REPLACE PROCEDURE CompraBoleto(
+    p_fecha IN DATE,
+    p_vuelo IN NUMBER,
+    p_asiento IN NUMBER,
+    p_empleado IN NUMBER,
+    p_pasajero IN NUMBER,
+    p_reserva IN NUMBER
+) AS
+    v_fecha_salida DATE;
+    v_disponible NUMBER;
+    v_empleado_existente NUMBER;
+    v_pasajero_existente NUMBER;
+    v_reserva_existente NUMBER;
+BEGIN
+    -- Validar que el vuelo existe y obtener su fecha de salida
+    SELECT fecha_hora_salida
+    INTO v_fecha_salida
+    FROM vuelo
+    WHERE no_vuelo = p_vuelo;
+
+    -- Validar que el vuelo no ha partido
+    IF v_fecha_salida < SYSDATE THEN
+        RAISE_APPLICATION_ERROR(-20001, 'El vuelo ya ha partido.');
+    END IF;
+
+    -- Verificar que el asiento esté disponible para ese vuelo
+    SELECT COUNT(*) INTO v_disponible
+    FROM boleto
+    WHERE vuelo_id = p_vuelo AND asiento = p_asiento;
+
+    IF v_disponible > 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El asiento ya está ocupado.');
+    END IF;
+
+    -- Validar que el pasajero existe
+    SELECT COUNT(*) INTO v_pasajero_existente
+    FROM pasajero
+    WHERE id_pasajero = p_pasajero;
+
+    IF v_pasajero_existente = 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 'El pasajero no existe.');
+    END IF;
+
+    -- Validar que la reserva existe
+    SELECT COUNT(*) INTO v_reserva_existente
+    FROM reserva
+    WHERE id_reserva = p_reserva;
+
+    IF v_reserva_existente = 0 THEN
+        RAISE_APPLICATION_ERROR(-20004, 'La reserva no existe.');
+    END IF;
+
+    -- Validar que el empleado existe, si el valor no es 0 (compra desde ventanilla)
+    IF p_empleado != 0 THEN
+        SELECT COUNT(*) INTO v_empleado_existente
+        FROM empleado
+        WHERE id_empleado = p_empleado;
+
+        IF v_empleado_existente = 0 THEN
+            RAISE_APPLICATION_ERROR(-20005, 'El empleado no existe.');
+        END IF;
+    END IF;
+
+    -- Insertar el boleto en la tabla boleto
+    INSERT INTO boleto (
+        fecha_pago,
+        vuelo_id,
+        asiento,
+        empleado_id,
+        pasajero_id,
+        reserva_id
+    ) VALUES (
+        p_fecha,
+        p_vuelo,
+        p_asiento,
+        CASE WHEN p_empleado = 0 THEN NULL ELSE p_empleado END,
+        p_pasajero,
+        p_reserva
+    );
+
+    DBMS_OUTPUT.PUT_LINE('Boleto registrado exitosamente.');
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20006, 'El vuelo no existe.');
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20007, 'Error al registrar el boleto: ' || SQLERRM);
+END;
+/
+
+
+-- AUMENTO DE SALARIO
+CREATE OR REPLACE PROCEDURE AumentoSalario(
+    p_codigo_empleado IN NUMBER,
+    p_nuevo_salario IN NUMBER
+) AS
+    v_salario_actual NUMBER;
+BEGIN
+    -- Validar que el empleado existe y obtener su salario actual
+    SELECT salario INTO v_salario_actual
+    FROM empleado
+    WHERE id_empleado = p_codigo_empleado;
+
+    -- Verificar que el nuevo salario es mayor que el actual
+    IF p_nuevo_salario <= v_salario_actual THEN
+        RAISE_APPLICATION_ERROR(-20001, 'El nuevo salario debe ser mayor que el salario actual.');
+    END IF;
+
+    -- Actualizar el salario del empleado
+    UPDATE empleado
+    SET salario = p_nuevo_salario
+    WHERE id_empleado = p_codigo_empleado;
+
+    DBMS_OUTPUT.PUT_LINE('Salario actualizado exitosamente.');
+    
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El empleado no existe.');
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Error al actualizar el salario: ' || SQLERRM);
+END;
+/
+
+
+
+-- CANCELAR RESERVA
+CREATE OR REPLACE PROCEDURE CancelarReservacion(
+    p_id_reserva IN NUMBER
+) AS
+    v_estado_reserva VARCHAR2(50);
+BEGIN
+    -- Validar que la reserva existe y obtener su estado
+    SELECT estado INTO v_estado_reserva
+    FROM reserva
+    WHERE id_reserva = p_id_reserva;
+
+    -- Verificar que la reserva no haya sido cancelada previamente
+    IF v_estado_reserva = 'CANCELADA' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'La reserva ya ha sido cancelada previamente.');
+    END IF;
+
+    -- Actualizar los boletos y asientos asociados para volverlos disponibles
+    UPDATE boleto
+    SET estado = 'DISPONIBLE'
+    WHERE reserva_id = p_id_reserva;
+
+    UPDATE asiento
+    SET estado = 'DISPONIBLE'
+    WHERE id_asiento IN (
+        SELECT asiento_id
+        FROM boleto
+        WHERE reserva_id = p_id_reserva
+    );
+
+    -- Marcar la reserva como cancelada
+    UPDATE reserva
+    SET estado = 'CANCELADA'
+    WHERE id_reserva = p_id_reserva;
+
+    DBMS_OUTPUT.PUT_LINE('La reservación ha sido cancelada exitosamente.');
+    
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20002, 'La reserva no existe.');
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Error al cancelar la reservación: ' || SQLERRM);
+END;
+/
