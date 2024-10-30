@@ -232,54 +232,93 @@ END;
 
 
 -- REGISTRAR PASAJEROS
-CREATE OR REPLACE PROCEDURE RegistrarPasajeros(
-    codigo_pasaporte IN NUMBER,
-    nombres IN VARCHAR2,
-    apellidos IN VARCHAR2,
-    fecha_nacimiento IN DATE,
-    correo IN VARCHAR2,
-    telefono IN NUMBER
+-- REGISTRAR PASAJEROS
+CREATE OR REPLACE PROCEDURE registrar_pasajero (
+    p_codigo_pasaporte   IN NUMBER,
+    p_nombres            IN VARCHAR2,
+    p_apellidos          IN VARCHAR2,
+    p_fecha_nacimiento   IN DATE,
+    p_correo             IN VARCHAR2,
+    p_telefono           IN NUMBER
 ) AS
-    v_entero NUMBER;
-    v_count NUMBER;
+    v_nombre_valido      BOOLEAN := TRUE;
+    v_apellido_valido    BOOLEAN := TRUE;
+    v_correo_valido      BOOLEAN := TRUE;
+    v_telefono_valido    BOOLEAN := TRUE;
+
+    -- Expresiones regulares para validaciones
+    v_regex_nombre       CONSTANT VARCHAR2(100) := '^[A-Za-z]+$'; -- Solo letras
+    v_regex_correo       CONSTANT VARCHAR2(100) := '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$'; -- Formato de correo
+
 BEGIN
-    -- Validar que los nombres solo contengan letras
-    IF NOT REGEXP_LIKE(nombres, '^[A-Za-z]+$') THEN
-        RAISE_APPLICATION_ERROR(-20001, 'Error: Los nombres solo deben contener letras.');
+    -- Validar nombres
+    IF REGEXP_LIKE(p_nombres, v_regex_nombre) THEN
+        v_nombre_valido := TRUE;
+    ELSE
+        v_nombre_valido := FALSE;
+        RAISE_APPLICATION_ERROR(-20001, 'El nombre debe contener solo letras.');
     END IF;
 
-    -- Validar que los apellidos solo contengan letras
-    IF NOT REGEXP_LIKE(apellidos, '^[A-Za-z]+$') THEN
-        RAISE_APPLICATION_ERROR(-20002, 'Error: Los apellidos solo deben contener letras.');
+    -- Validar apellidos
+    IF REGEXP_LIKE(p_apellidos, v_regex_nombre) THEN
+        v_apellido_valido := TRUE;
+    ELSE
+        v_apellido_valido := FALSE;
+        RAISE_APPLICATION_ERROR(-20002, 'El apellido debe contener solo letras.');
     END IF;
 
-    -- Validar formato del correo electrónico
-    IF NOT REGEXP_LIKE(correo, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$') THEN
-        RAISE_APPLICATION_ERROR(-20003, 'Error: El formato del correo es inválido.');
+    -- Validar correo
+    IF REGEXP_LIKE(p_correo, v_regex_correo) THEN
+        v_correo_valido := TRUE;
+    ELSE
+        v_correo_valido := FALSE;
+        RAISE_APPLICATION_ERROR(-20003, 'El correo electrónico no tiene un formato válido.');
     END IF;
 
-    -- Validar que el teléfono tenga exactamente 10 dígitos
-    IF LENGTH(TO_CHAR(telefono)) != 8 THEN
-        RAISE_APPLICATION_ERROR(-20004, 'Error: El número de teléfono debe tener 10 dígitos.');
+    -- Validar teléfono (obviando código de área)
+    IF LENGTH(TO_CHAR(p_telefono)) >= 8 THEN
+        v_telefono_valido := TRUE; -- Se asume que el número tiene al menos 7 dígitos
+    ELSE
+        v_telefono_valido := FALSE;
+        RAISE_APPLICATION_ERROR(-20004, 'El número de teléfono debe tener al menos 8 dígitos.');
     END IF;
 
-    -- Insertar el nuevo pasajero
-    INSERT INTO pasajero(codigo_pasaporte, nombres, apellidos, fecha_nacimiento, correo, telefono)
-    VALUES (codigo_pasaporte, nombres, apellidos, fecha_nacimiento, correo, telefono);
+    -- Insertar el nuevo pasajero en la tabla pasajero
+    INSERT INTO pasajero (
+        codigo_pasaporte,
+        nombres,
+        apellidos,
+        fecha_nacimiento,
+        correo,
+        telefono
+    ) VALUES (
+        p_codigo_pasaporte,
+        p_nombres,
+        p_apellidos,
+        p_fecha_nacimiento,
+        p_correo,
+        p_telefono
+    );
+
+    COMMIT; -- Confirmar la transacción
 
 EXCEPTION
     WHEN OTHERS THEN
-        RAISE_APPLICATION_ERROR(-20005, 'Error al registrar el pasajero: ' || SQLERRM);
-END;
+        ROLLBACK; -- Revertir cambios en caso de error
+        RAISE; -- Propagar el error
+END registrar_pasajero;
 /
 
+--ejecutar registro de PuertaEmbarque ( codigo_iata, terminal, listaPuertasEmbarque )
+-- EXECUTE RegistrarPasajeros( '1234','Mario','Castillo',TO_DATE('2024-12-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'mariocas@gmail.com', 12345678 );
+
 -- REGISTRAR VUELOS Y TARIFAS
-CREATE OR REPLACE PROCEDURE registrar_vuelo (
+create or replace NONEDITIONABLE PROCEDURE registrar_vuelo (
     p_no_vuelo                  IN INTEGER,
     p_fecha_salida              IN DATE,
     p_fecha_llegada             IN DATE,
     p_estado                    IN VARCHAR2,
-    p_avion_matricula           IN VARCHAR2,
+    p_avion_matricula           IN INTEGER,
     p_puerta_embarque_id_puerta IN INTEGER,
     p_ruta_id_ruta              IN INTEGER,
     p_aerolinea_id_aerolinea    IN INTEGER,
@@ -294,10 +333,10 @@ CREATE OR REPLACE PROCEDURE registrar_vuelo (
     v_tarifa_valida         BOOLEAN := TRUE;
 
 BEGIN
-    -- Validar que el vuelo no existe
+    -- Validar que el avión exista y esté disponible
     SELECT COUNT(*) INTO v_existe_avion 
     FROM avion 
-    WHERE matricula = p_avion_matricula AND estado = 'Disponible';
+    WHERE id_avion = p_avion_matricula AND estado = '0';
 
     IF v_existe_avion = 0 THEN
         RAISE_APPLICATION_ERROR(-20001, 'El avión no existe o no está disponible.');
@@ -332,10 +371,6 @@ BEGIN
 
     -- Validar precios lógicos
     IF p_tarifa_primera_clase < 0 OR p_tarifa_clase_ejecutiva < 0 OR p_tarifa_clase_economica < 0 THEN
-        v_tarifa_valida := FALSE;
-    END IF;
-
-    IF NOT v_tarifa_valida THEN
         RAISE_APPLICATION_ERROR(-20005, 'Las tarifas deben ser mayores o iguales a cero.');
     END IF;
 
@@ -359,30 +394,21 @@ BEGIN
         p_fecha_salida,
         p_fecha_llegada,
         p_estado,
-        ( SELECT id_avion FROM avion WHERE id_avion = p_avion_matricula ),
+        p_avion_matricula,
         p_ruta_id_ruta,
         p_puerta_embarque_id_puerta,
         p_aerolinea_id_aerolinea
     );
 
     -- Insertar las tarifas correspondientes en la tabla tarifa
-    INSERT INTO tarifa (
-        vuelo_no_vuelo,
-        clase,
-        precio
-    ) VALUES (p_no_vuelo, 'Primera Clase', p_tarifa_primera_clase);
-    
-    INSERT INTO tarifa (
-        vuelo_no_vuelo,
-        clase,
-        precio
-    ) VALUES (p_no_vuelo, 'Clase Ejecutiva', p_tarifa_clase_ejecutiva);
-    
-    INSERT INTO tarifa (
-        vuelo_no_vuelo,
-        clase,
-        precio
-    ) VALUES (p_no_vuelo, 'Clase Económica', p_tarifa_clase_economica);
+   INSERT INTO tarifa (vuelo_no_vuelo, clase, precio)
+    VALUES ( p_no_vuelo, 'Primera Clase', p_tarifa_primera_clase);
+
+INSERT INTO tarifa ( vuelo_no_vuelo, clase, precio)
+VALUES ( p_no_vuelo, 'Clase Ejecutiva', p_tarifa_clase_ejecutiva);
+
+INSERT INTO tarifa ( vuelo_no_vuelo, clase, precio)
+VALUES ( p_no_vuelo, 'Clase Económica', p_tarifa_clase_economica);
 
     COMMIT; -- Confirmar la transacción
 
@@ -397,177 +423,150 @@ END registrar_vuelo;
 
 -- ASIGNAR TRIPULACION
 CREATE OR REPLACE PROCEDURE asignar_tripulacion (
-    p_codigo_empleado IN INTEGER,
-    p_codigo_vuelo IN INTEGER
-) IS
-    v_aerolinea_id INTEGER;
-    v_tipo_cargo INTEGER;
-    v_num_pilotos INTEGER;
-    v_num_empleados INTEGER;
-
-    -- Verificar si el empleado existe y obtener su aerolínea y tipo de cargo
-    CURSOR c_empleado IS
-        SELECT e.aerolinea_id_aerolinea, e.cargo_id_cargo
-        FROM empleado e
-        WHERE e.id_empleado = p_codigo_empleado;
-
+    p_codigo_vuelo IN NUMBER,
+    p_empleado_id IN NUMBER
+) AS
+    v_count NUMBER;
+    v_aerolinea_id NUMBER;
+    v_role VARCHAR2(30);
+    v_pilotos_count NUMBER;
+    v_servicios_count NUMBER;
 BEGIN
-    OPEN c_empleado;
-    FETCH c_empleado INTO v_aerolinea_id, v_tipo_cargo;
+    -- Obtener el ID de la aerolínea del vuelo
+    SELECT aerolinea_id_aerolinea INTO v_aerolinea_id
+    FROM vuelo
+    WHERE no_vuelo = p_codigo_vuelo;
 
-    -- Validar que el empleado fue encontrado
-    IF c_empleado%NOTFOUND THEN
-        RAISE_APPLICATION_ERROR(-20001, 'El empleado no existe.');
-    END IF;
-
-    -- Verificar que el empleado no esté ya asignado a otro vuelo
-    IF EXISTS (SELECT 1 FROM tripulacion t WHERE t.empleado_id_empleado = p_codigo_empleado) THEN
-        RAISE_APPLICATION_ERROR(-20002, 'El empleado ya está asignado a otro vuelo.');
-    END IF;
-
-    -- Verificar que el vuelo existe
-    IF NOT EXISTS (SELECT 1 FROM vuelo v WHERE v.no_vuelo = p_codigo_vuelo) THEN
-        RAISE_APPLICATION_ERROR(-20003, 'El vuelo no existe.');
-    END IF;
-
-    -- Verificar que la aerolínea del vuelo coincida con la del empleado
-    IF NOT EXISTS (
-        SELECT 1
-        FROM vuelo v
-        WHERE v.no_vuelo = p_codigo_vuelo AND v.aerolinea_id_aerolinea = v_aerolinea_id
-    ) THEN
-        RAISE_APPLICATION_ERROR(-20004, 'La aerolínea del vuelo no coincide con la del empleado.');
-    END IF;
-
-    -- Contar el número de pilotos y empleados asignados a ese vuelo
+    -- Verificar si el empleado ya está asignado a otro vuelo
     SELECT COUNT(*)
-    INTO v_num_pilotos
-    FROM tripulacion t
-    JOIN empleado e ON t.empleado_id_empleado = e.id_empleado
-    WHERE t.vuelo_no_vuelo = p_codigo_vuelo AND e.cargo_id_cargo IN (SELECT id_cargo FROM cargo WHERE cargo = 'Piloto');
+    INTO v_count
+    FROM tripulacion
+    WHERE empleado_id_empleado = p_empleado_id;
 
-    SELECT COUNT(*)
-    INTO v_num_empleados
-    FROM tripulacion t
-    JOIN empleado e ON t.empleado_id_empleado = e.id_empleado
-    WHERE t.vuelo_no_vuelo = p_codigo_vuelo AND e.cargo_id_cargo NOT IN (SELECT id_cargo FROM cargo WHERE cargo = 'Ventanilla');
-
-    -- Validar requisitos de tripulación
-    IF v_num_pilotos < 2 THEN
-        RAISE_APPLICATION_ERROR(-20005, 'Se requiere al menos 2 pilotos (un piloto y un copiloto) asignados al vuelo.');
+    IF v_count > 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'El empleado ya está asignado a otro vuelo.');
     END IF;
 
-    IF v_num_empleados < 3 THEN
-        RAISE_APPLICATION_ERROR(-20006, 'Se requieren al menos 3 empleados como servidores asignados al vuelo.');
+    -- Obtener el rol del empleado
+    SELECT cargo.cargo INTO v_role
+    FROM empleado
+    JOIN cargo ON empleado.cargo_id_cargo = cargo.id_cargo
+    WHERE id_empleado = p_empleado_id;
+
+    -- Verificar si el empleado tiene un rol válido
+    IF v_role IN ('Piloto', 'Copiloto') OR v_role IN ('Servidor') THEN
+
+        -- Contar los pilotos y servidores ya asignados a este vuelo
+        SELECT COUNT(*)
+        INTO v_pilotos_count
+        FROM tripulacion t
+        JOIN empleado e ON t.empleado_id_empleado = e.id_empleado
+        WHERE t.vuelo_no_vuelo = p_codigo_vuelo AND e.cargo_id_cargo IN (SELECT id_cargo FROM cargo WHERE cargo IN ('Piloto', 'Copiloto'));
+
+        SELECT COUNT(*)
+        INTO v_servicios_count
+        FROM tripulacion t
+        JOIN empleado e ON t.empleado_id_empleado = e.id_empleado
+        WHERE t.vuelo_no_vuelo = p_codigo_vuelo AND e.cargo_id_cargo IN (SELECT id_cargo FROM cargo WHERE cargo = 'Servidor');
+
+        -- Validar las condiciones mínimas para la tripulación
+        IF v_role = 'Piloto' OR v_role = 'Copiloto' THEN
+            IF v_pilotos_count >= 2 THEN
+                RAISE_APPLICATION_ERROR(-20002, 'Ya se han asignado suficientes pilotos para este vuelo.');
+            END IF;
+        ELSIF v_role = 'Servidor' THEN
+            IF v_servicios_count >= 3 THEN
+                RAISE_APPLICATION_ERROR(-20003, 'Ya se han asignado suficientes empleados como servidores para este vuelo.');
+            END IF;
+        END IF;
+
+        -- Asignar el empleado a la tripulación
+        INSERT INTO tripulacion (vuelo_no_vuelo, empleado_id_empleado)
+        VALUES (p_codigo_vuelo, p_empleado_id);
+
+        COMMIT;
+    ELSE
+        RAISE_APPLICATION_ERROR(-20004, 'El empleado no puede ser asignado a la tripulación.');
     END IF;
-
-    -- Asignar al empleado a la tripulación
-    INSERT INTO tripulacion (vuelo_no_vuelo, empleado_id_empleado)
-    VALUES (p_codigo_vuelo, p_codigo_empleado);
-
-    COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Empleado asignado correctamente a la tripulación.');
-
-EXCEPTION
-    WHEN OTHERS THEN
-        ROLLBACK;
-        RAISE_APPLICATION_ERROR(-20007, 'Error al asignar el empleado a la tripulación: ' || SQLERRM);
-END asignar_tripulacion;
+END;
 /
 
 
 
 -- COMPRA DE BOLETOS
--- nota: No se si el valor 0 es del empleado o de la reserva
-CREATE OR REPLACE PROCEDURE CompraBoleto(
-    p_fecha IN DATE,
-    p_vuelo IN NUMBER,
-    p_asiento IN NUMBER,
-    p_empleado IN NUMBER,
-    p_pasajero IN NUMBER,
-    p_reserva IN NUMBER
-) AS
-    v_fecha_salida DATE;
-    v_disponible NUMBER;
-    v_empleado_existente NUMBER;
-    v_pasajero_existente NUMBER;
-    v_reserva_existente NUMBER;
+--ejecutar registro de aerolínea ( codigoaci, nombre, id_ciudad )
 BEGIN
-    -- Validar que el vuelo existe y obtener su fecha de salida
-    SELECT fecha_hora_salida
-    INTO v_fecha_salida
-    FROM vuelo
-    WHERE no_vuelo = p_vuelo;
-
-    -- Validar que el vuelo no ha partido
-    IF v_fecha_salida < SYSDATE THEN
-        RAISE_APPLICATION_ERROR(-20001, 'El vuelo ya ha partido.');
-    END IF;
-
-    -- Verificar que el asiento esté disponible para ese vuelo
-    SELECT COUNT(*) INTO v_disponible
-    FROM boleto
-    WHERE vuelo_id = p_vuelo AND asiento = p_asiento;
-
-    IF v_disponible > 0 THEN
-        RAISE_APPLICATION_ERROR(-20002, 'El asiento ya está ocupado.');
-    END IF;
-
-    -- Validar que el pasajero existe
-    SELECT COUNT(*) INTO v_pasajero_existente
-    FROM pasajero
-    WHERE id_pasajero = p_pasajero;
-
-    IF v_pasajero_existente = 0 THEN
-        RAISE_APPLICATION_ERROR(-20003, 'El pasajero no existe.');
-    END IF;
-
-    -- Validar que la reserva existe
-    SELECT COUNT(*) INTO v_reserva_existente
-    FROM reserva
-    WHERE id_reserva = p_reserva;
-
-    IF v_reserva_existente = 0 THEN
-        RAISE_APPLICATION_ERROR(-20004, 'La reserva no existe.');
-    END IF;
-
-    -- Validar que el empleado existe, si el valor no es 0 (compra desde ventanilla)
-    IF p_empleado != 0 THEN
-        SELECT COUNT(*) INTO v_empleado_existente
-        FROM empleado
-        WHERE id_empleado = p_empleado;
-
-        IF v_empleado_existente = 0 THEN
-            RAISE_APPLICATION_ERROR(-20005, 'El empleado no existe.');
-        END IF;
-    END IF;
-
-    -- Insertar el boleto en la tabla boleto
-    INSERT INTO boleto (
-        fecha_pago,
-        vuelo_id,
-        asiento,
-        empleado_id,
-        pasajero_id,
-        reserva_id
-    ) VALUES (
-        p_fecha,
-        p_vuelo,
-        p_asiento,
-        CASE WHEN p_empleado = 0 THEN NULL ELSE p_empleado END,
-        p_pasajero,
-        p_reserva
-    );
-
-    DBMS_OUTPUT.PUT_LINE('Boleto registrado exitosamente.');
-
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        RAISE_APPLICATION_ERROR(-20006, 'El vuelo no existe.');
-    WHEN OTHERS THEN
-        RAISE_APPLICATION_ERROR(-20007, 'Error al registrar el boleto: ' || SQLERRM);
+    compra_boleto ( TO_DATE('2024-12-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS') , 
+                        1, 
+                        3,
+                        18472,
+                        1234, 
+                        1);
 END;
 /
+                        
+                        
+                        
+create or replace NONEDITIONABLE PROCEDURE compra_boleto (
+    p_fecha               DATE,
+    p_vuelo               INTEGER,
+    p_asiento             INTEGER,
+    p_empleado            INTEGER,
+    p_pasajero            INTEGER,
+    p_reserva             INTEGER
+) AS
+    v_boleto_id           INTEGER;
+    v_asiento_disponible  INTEGER;
+    v_pago_id             INTEGER;
+BEGIN
+    -- Verificar que el vuelo existe y no haya partido
+    SELECT COUNT(*) INTO v_asiento_disponible
+    FROM vuelo
+    WHERE no_vuelo = p_vuelo
+    AND estado != 'partido';
+
+    IF v_asiento_disponible = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'El vuelo no existe o ya ha partido.');
+    END IF;
+
+    -- Verificar disponibilidad del asiento
+    SELECT COUNT(*) INTO v_asiento_disponible
+    FROM boleto
+    WHERE asientos_id_asientos = p_asiento
+    AND vuelo_no_vuelo = p_vuelo
+    AND estado = 0;
+
+    IF v_asiento_disponible = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El asiento no está disponible.');
+    END IF;
+
+    -- Registrar el pago (suponiendo que hay un procedimiento o tabla para manejar pagos)
+    INSERT INTO pago (id_pago, fecha, metodo)
+    VALUES (NULL, p_fecha, 'ventanilla') RETURNING id_pago INTO v_pago_id;
+
+    -- Insertar el nuevo boleto
+    INSERT INTO boleto (id_boleto, estado, asientos_id_asientos, vuelo_no_vuelo, 
+                        empleado_id_empleado, pasajero_codigo_pasaporte, 
+                        reserva_id_reserva, pago_id_pago)
+    VALUES (NULL, 'comprado', p_asiento, p_vuelo, p_empleado, 
+            p_pasajero, p_reserva, v_pago_id)
+    RETURNING id_boleto INTO v_boleto_id;
+
+    -- Actualizar el estado del asiento a no disponible
+    UPDATE boleto
+    SET estado = 'no disponible'
+    WHERE asientos_id_asientos = p_asiento
+    AND vuelo_no_vuelo = p_vuelo;
+
+    COMMIT;
+
+    DBMS_OUTPUT.PUT_LINE('Boleto comprado con éxito. ID Boleto: ' || v_boleto_id);
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20003, 'Error en la compra del boleto: ' || SQLERRM);
+END compra_boleto;
+
 
 
 -- AUMENTO DE SALARIO
@@ -605,45 +604,25 @@ END;
 
 
 -- CANCELAR RESERVA
-CREATE OR REPLACE PROCEDURE CancelarReservacion(
+CREATE OR REPLACE PROCEDURE cancelar_reservacion (
     p_id_reserva IN NUMBER
 ) AS
-    v_estado_reserva VARCHAR2(50);
 BEGIN
-    -- Validar que la reserva existe y obtener su estado
-    SELECT estado INTO v_estado_reserva
-    FROM reserva
-    WHERE id_reserva = p_id_reserva;
-
-    -- Verificar que la reserva no haya sido cancelada previamente
-    IF v_estado_reserva = 'CANCELADA' THEN
-        RAISE_APPLICATION_ERROR(-20001, 'La reserva ya ha sido cancelada previamente.');
-    END IF;
-
-    -- Actualizar los boletos y asientos asociados para volverlos disponibles
+    -- Cambiar el estado de todos los boletos relacionados con la reserva a 'Disponible'
     UPDATE boleto
-    SET estado = 'DISPONIBLE'
-    WHERE reserva_id = p_id_reserva;
+    SET estado = 'Disponible'
+    WHERE reserva_id_reserva = p_id_reserva;
 
-    UPDATE asiento
-    SET estado = 'DISPONIBLE'
-    WHERE id_asiento IN (
-        SELECT asiento_id
-        FROM boleto
-        WHERE reserva_id = p_id_reserva
-    );
-
-    -- Marcar la reserva como cancelada
-    UPDATE reserva
-    SET estado = 'CANCELADA'
+    -- Eliminar la reservación
+    DELETE FROM reserva
     WHERE id_reserva = p_id_reserva;
 
-    DBMS_OUTPUT.PUT_LINE('La reservación ha sido cancelada exitosamente.');
-    
+    -- (Opcional) Si deseas manejar la cancelación de otros elementos, puedes agregar más lógica aquí.
+
+    COMMIT;  -- Confirmar los cambios realizados
 EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        RAISE_APPLICATION_ERROR(-20002, 'La reserva no existe.');
     WHEN OTHERS THEN
-        RAISE_APPLICATION_ERROR(-20003, 'Error al cancelar la reservación: ' || SQLERRM);
-END;
+        ROLLBACK;  -- Revertir en caso de error
+        RAISE;  -- Lanzar la excepción para manejo externo
+END cancelar_reservacion;
 /
