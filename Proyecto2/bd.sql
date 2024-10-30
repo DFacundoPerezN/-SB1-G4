@@ -1,7 +1,7 @@
 -- Generado por Oracle SQL Developer Data Modeler 23.1.0.087.0806
---   en:        2024-10-23 16:46:56 CST
---   sitio:      Oracle Database 21c
---   tipo:      Oracle Database 21c
+--   en:        2024-10-29 22:41:59 CST
+--   sitio:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
 
 
 
@@ -10,23 +10,25 @@
 -- predefined type, no DDL - XMLTYPE
 
 CREATE TABLE aerolinea (
+    id_aerolinea     INTEGER NOT NULL,
     codigooaci       VARCHAR2(25) NOT NULL,
     nombre           VARCHAR2(35) NOT NULL,
     ciudad_id_ciudad INTEGER NOT NULL
 );
 
-ALTER TABLE aerolinea ADD CONSTRAINT aerolinea_pk PRIMARY KEY ( codigooaci );
+ALTER TABLE aerolinea ADD CONSTRAINT aerolinea_pk PRIMARY KEY ( id_aerolinea );
 
 CREATE TABLE aeropuerto (
+    id_aeropuerto     INTEGER NOT NULL,
     codigo_iata       VARCHAR2(35) NOT NULL,
     nombre            VARCHAR2(30) NOT NULL,
     direccion         VARCHAR2(35) NOT NULL,
-    pista_extendida   NUMBER NOT NULL,
-    servicio_aduanero NUMBER NOT NULL,
+    pista_extendida   CHAR(1) NOT NULL,
+    servicio_aduanero CHAR(1) NOT NULL,
     ciudad_id_ciudad  INTEGER NOT NULL
 );
 
-ALTER TABLE aeropuerto ADD CONSTRAINT aeropuerto_pk PRIMARY KEY ( codigo_iata );
+ALTER TABLE aeropuerto ADD CONSTRAINT aeropuerto_pk PRIMARY KEY ( id_aeropuerto );
 
 CREATE TABLE asientos (
     id_asientos INTEGER NOT NULL,
@@ -37,12 +39,13 @@ CREATE TABLE asientos (
 ALTER TABLE asientos ADD CONSTRAINT asientos_pk PRIMARY KEY ( id_asientos );
 
 CREATE TABLE avion (
-    matricula            VARCHAR2(25) NOT NULL,
-    modelo               VARCHAR2(25) NOT NULL,
-    estado               NUMBER NOT NULL,
-    alcance              INTEGER NOT NULL,
-    aerolinea_codigooaci VARCHAR2(25) NOT NULL,
-    asientos_id_asientos INTEGER NOT NULL
+    id_avion               INTEGER NOT NULL,
+    matricula              VARCHAR2(25) NOT NULL,
+    modelo                 VARCHAR2(25) NOT NULL,
+    estado                 CHAR(1) NOT NULL,
+    alcance                INTEGER NOT NULL,
+    asientos_id_asientos   INTEGER NOT NULL,
+    aerolinea_id_aerolinea INTEGER NOT NULL
 );
 
 ALTER TABLE avion ADD CONSTRAINT avion_pk PRIMARY KEY ( matricula );
@@ -52,7 +55,7 @@ CREATE TABLE boleto (
     estado                    VARCHAR2(25) NOT NULL,
     asientos_id_asientos      INTEGER NOT NULL,
     vuelo_no_vuelo            INTEGER NOT NULL,
-    empleado_codigo_empleado  INTEGER NOT NULL,
+    empleado_id_empleado      INTEGER NOT NULL,
     pasajero_codigo_pasaporte INTEGER NOT NULL,
     reserva_id_reserva        INTEGER NOT NULL,
     pago_id_pago              INTEGER NOT NULL
@@ -83,19 +86,19 @@ CREATE TABLE ciudad (
 ALTER TABLE ciudad ADD CONSTRAINT ciudad_pk PRIMARY KEY ( id_ciudad );
 
 CREATE TABLE empleado (
-    codigo_empleado      INTEGER NOT NULL,
-    nombre               VARCHAR2(35) NOT NULL,
-    apellido             VARCHAR2(35) NOT NULL,
-    correo               VARCHAR2(40) NOT NULL,
-    telefono             INTEGER NOT NULL,
-    direccion            VARCHAR2(30) NOT NULL,
-    fecha_nacimiento     DATE NOT NULL,
-    aerolinea_codigooaci VARCHAR2(25) NOT NULL,
-    cargo_id_cargo       INTEGER NOT NULL,
-    salario              INTEGER NOT NULL
+    id_empleado            INTEGER NOT NULL,
+    nombre                 VARCHAR2(35) NOT NULL,
+    apellido               VARCHAR2(35) NOT NULL,
+    correo                 VARCHAR2(40) NOT NULL,
+    telefono               INTEGER NOT NULL,
+    direccion              VARCHAR2(30) NOT NULL,
+    fecha_nacimiento       DATE NOT NULL,
+    cargo_id_cargo         INTEGER NOT NULL,
+    salario                INTEGER NOT NULL,
+    aerolinea_id_aerolinea INTEGER NOT NULL
 );
 
-ALTER TABLE empleado ADD CONSTRAINT empleado_pk PRIMARY KEY ( codigo_empleado );
+ALTER TABLE empleado ADD CONSTRAINT empleado_pk PRIMARY KEY ( id_empleado );
 
 CREATE TABLE equipaje (
     id_equipaje               INTEGER NOT NULL,
@@ -155,25 +158,35 @@ CREATE TABLE reserva (
 ALTER TABLE reserva ADD CONSTRAINT reserva_pk PRIMARY KEY ( id_reserva );
 
 CREATE TABLE ruta (
-    id_ruta                 INTEGER NOT NULL,
-    tiempo_vuelo            INTEGER NOT NULL,
-    aeropuerto_codigo_iata  VARCHAR2(35) NOT NULL,
-    aeropuerto_codigo_iata2 VARCHAR2(35) NOT NULL
+    id_ruta                   INTEGER NOT NULL,
+    tiempo_vuelo              INTEGER NOT NULL,
+    distancia                 INTEGER NOT NULL,
+    aeropuerto_id_aeropuerto  INTEGER NOT NULL,
+    aeropuerto_id_aeropuerto1 INTEGER NOT NULL
 );
 
 ALTER TABLE ruta ADD CONSTRAINT ruta_pk PRIMARY KEY ( id_ruta );
 
+CREATE TABLE tarifa (
+    id_tarifa      INTEGER NOT NULL,
+    clase          VARCHAR2(50) NOT NULL,
+    precio         NUMBER NOT NULL,
+    vuelo_no_vuelo INTEGER NOT NULL
+);
+
+ALTER TABLE tarifa ADD CONSTRAINT tarifa_pk PRIMARY KEY ( id_tarifa );
+
 CREATE TABLE terminal (
-    id_terminal            INTEGER NOT NULL,
-    aeropuerto_codigo_iata VARCHAR2(35) NOT NULL
+    id_terminal              INTEGER NOT NULL,
+    aeropuerto_id_aeropuerto INTEGER NOT NULL
 );
 
 ALTER TABLE terminal ADD CONSTRAINT terminal_pk PRIMARY KEY ( id_terminal );
 
 CREATE TABLE tripulacion (
-    id_tripulacion           INTEGER NOT NULL,
-    vuelo_no_vuelo           INTEGER NOT NULL,
-    empleado_codigo_empleado INTEGER NOT NULL
+    id_tripulacion       INTEGER NOT NULL,
+    vuelo_no_vuelo       INTEGER NOT NULL,
+    empleado_id_empleado INTEGER NOT NULL
 );
 
 ALTER TABLE tripulacion ADD CONSTRAINT tripulacion_pk PRIMARY KEY ( id_tripulacion );
@@ -185,8 +198,8 @@ CREATE TABLE vuelo (
     estado                    VARCHAR2(50) NOT NULL,
     avion_matricula           VARCHAR2(25) NOT NULL,
     ruta_id_ruta              INTEGER NOT NULL,
-    aerolinea_codigooaci      VARCHAR2(25) NOT NULL,
-    puerta_embarque_id_puerta INTEGER NOT NULL
+    puerta_embarque_id_puerta INTEGER NOT NULL,
+    aerolinea_id_aerolinea    INTEGER NOT NULL
 );
 
 ALTER TABLE vuelo ADD CONSTRAINT vuelo_pk PRIMARY KEY ( no_vuelo );
@@ -200,8 +213,8 @@ ALTER TABLE aeropuerto
         REFERENCES ciudad ( id_ciudad );
 
 ALTER TABLE avion
-    ADD CONSTRAINT avion_aerolinea_fk FOREIGN KEY ( aerolinea_codigooaci )
-        REFERENCES aerolinea ( codigooaci );
+    ADD CONSTRAINT avion_aerolinea_fk FOREIGN KEY ( aerolinea_id_aerolinea )
+        REFERENCES aerolinea ( id_aerolinea );
 
 ALTER TABLE avion
     ADD CONSTRAINT avion_asientos_fk FOREIGN KEY ( asientos_id_asientos )
@@ -212,8 +225,8 @@ ALTER TABLE boleto
         REFERENCES asientos ( id_asientos );
 
 ALTER TABLE boleto
-    ADD CONSTRAINT boleto_empleado_fk FOREIGN KEY ( empleado_codigo_empleado )
-        REFERENCES empleado ( codigo_empleado );
+    ADD CONSTRAINT boleto_empleado_fk FOREIGN KEY ( empleado_id_empleado )
+        REFERENCES empleado ( id_empleado );
 
 ALTER TABLE boleto
     ADD CONSTRAINT boleto_pago_fk FOREIGN KEY ( pago_id_pago )
@@ -236,8 +249,8 @@ ALTER TABLE can_reserva
         REFERENCES reserva ( id_reserva );
 
 ALTER TABLE empleado
-    ADD CONSTRAINT empleado_aerolinea_fk FOREIGN KEY ( aerolinea_codigooaci )
-        REFERENCES aerolinea ( codigooaci );
+    ADD CONSTRAINT empleado_aerolinea_fk FOREIGN KEY ( aerolinea_id_aerolinea )
+        REFERENCES aerolinea ( id_aerolinea );
 
 ALTER TABLE empleado
     ADD CONSTRAINT empleado_cargo_fk FOREIGN KEY ( cargo_id_cargo )
@@ -260,28 +273,32 @@ ALTER TABLE puerta_embarque
         REFERENCES terminal ( id_terminal );
 
 ALTER TABLE ruta
-    ADD CONSTRAINT ruta_aeropuerto_fk FOREIGN KEY ( aeropuerto_codigo_iata )
-        REFERENCES aeropuerto ( codigo_iata );
+    ADD CONSTRAINT ruta_aeropuerto_fk FOREIGN KEY ( aeropuerto_id_aeropuerto )
+        REFERENCES aeropuerto ( id_aeropuerto );
 
 ALTER TABLE ruta
-    ADD CONSTRAINT ruta_aeropuerto_fkv2 FOREIGN KEY ( aeropuerto_codigo_iata2 )
-        REFERENCES aeropuerto ( codigo_iata );
+    ADD CONSTRAINT ruta_aeropuerto_fkv1 FOREIGN KEY ( aeropuerto_id_aeropuerto1 )
+        REFERENCES aeropuerto ( id_aeropuerto );
+
+ALTER TABLE tarifa
+    ADD CONSTRAINT tarifa_vuelo_fk FOREIGN KEY ( vuelo_no_vuelo )
+        REFERENCES vuelo ( no_vuelo );
 
 ALTER TABLE terminal
-    ADD CONSTRAINT terminal_aeropuerto_fk FOREIGN KEY ( aeropuerto_codigo_iata )
-        REFERENCES aeropuerto ( codigo_iata );
+    ADD CONSTRAINT terminal_aeropuerto_fk FOREIGN KEY ( aeropuerto_id_aeropuerto )
+        REFERENCES aeropuerto ( id_aeropuerto );
 
 ALTER TABLE tripulacion
-    ADD CONSTRAINT tripulacion_empleado_fk FOREIGN KEY ( empleado_codigo_empleado )
-        REFERENCES empleado ( codigo_empleado );
+    ADD CONSTRAINT tripulacion_empleado_fk FOREIGN KEY ( empleado_id_empleado )
+        REFERENCES empleado ( id_empleado );
 
 ALTER TABLE tripulacion
     ADD CONSTRAINT tripulacion_vuelo_fk FOREIGN KEY ( vuelo_no_vuelo )
         REFERENCES vuelo ( no_vuelo );
 
 ALTER TABLE vuelo
-    ADD CONSTRAINT vuelo_aerolinea_fk FOREIGN KEY ( aerolinea_codigooaci )
-        REFERENCES aerolinea ( codigooaci );
+    ADD CONSTRAINT vuelo_aerolinea_fk FOREIGN KEY ( aerolinea_id_aerolinea )
+        REFERENCES aerolinea ( id_aerolinea );
 
 ALTER TABLE vuelo
     ADD CONSTRAINT vuelo_avion_fk FOREIGN KEY ( avion_matricula )
@@ -299,9 +316,9 @@ ALTER TABLE vuelo
 
 -- Informe de Resumen de Oracle SQL Developer Data Modeler: 
 -- 
--- CREATE TABLE                            19
+-- CREATE TABLE                            20
 -- CREATE INDEX                             0
--- ALTER TABLE                             45
+-- ALTER TABLE                             47
 -- CREATE VIEW                              0
 -- ALTER VIEW                               0
 -- CREATE PACKAGE                           0

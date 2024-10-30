@@ -273,82 +273,127 @@ EXCEPTION
 END;
 /
 
-
--- REGISTRAR VUELOS
-CREATE OR REPLACE PROCEDURE RegistrarVuelo(
-    no_vuelo IN NUMBER,
-    fecha_hora_salida IN DATE,
-    fecha_hora_llegada IN DATE,
-    estado IN VARCHAR2,
-    avion_id IN NUMBER,
-    puerta_id IN NUMBER,
-    ruta_id IN NUMBER,
-    aerolinea_id IN NUMBER,
-    tarifa_primera_clase IN NUMBER,
-    tarifa_clase_ejecutiva IN NUMBER,
-    tarifa_clase_economica IN NUMBER
+-- REGISTRAR VUELOS Y TARIFAS
+CREATE OR REPLACE PROCEDURE registrar_vuelo (
+    p_no_vuelo                  IN INTEGER,
+    p_fecha_salida              IN DATE,
+    p_fecha_llegada             IN DATE,
+    p_estado                    IN VARCHAR2,
+    p_avion_matricula           IN VARCHAR2,
+    p_puerta_embarque_id_puerta IN INTEGER,
+    p_ruta_id_ruta              IN INTEGER,
+    p_aerolinea_id_aerolinea    IN INTEGER,
+    p_tarifa_primera_clase      IN NUMBER,
+    p_tarifa_clase_ejecutiva    IN NUMBER,
+    p_tarifa_clase_economica     IN NUMBER
 ) AS
-    v_count NUMBER;
+    v_existe_avion          INTEGER;
+    v_existe_puerta         INTEGER;
+    v_existe_ruta           INTEGER;
+    v_existe_aerolinea      INTEGER;
+    v_tarifa_valida         BOOLEAN := TRUE;
+
 BEGIN
-    -- Validar que el avión exista y esté disponible
-    SELECT COUNT(*) INTO v_count FROM avion WHERE id_avion = avion_id AND estado = 'disponible';
-    IF v_count = 0 THEN
-        RAISE_APPLICATION_ERROR(-20002, 'El avión no existe o no está disponible.');
-    END IF;
-    v_count := 0;
+    -- Validar que el vuelo no existe
+    SELECT COUNT(*) INTO v_existe_avion 
+    FROM avion 
+    WHERE matricula = p_avion_matricula AND estado = 'Disponible';
 
-    
-    -- Validar que la fecha y hora de llegada sea posterior a la de salida
-    IF fecha_hora_llegada <= fecha_hora_salida THEN
-        RAISE_APPLICATION_ERROR(-20001, 'La fecha y hora de llegada debe ser posterior a la de salida.');
+    IF v_existe_avion = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'El avión no existe o no está disponible.');
     END IF;
-
 
     -- Validar que la puerta de embarque exista
-    SELECT COUNT(*) INTO v_count FROM puerta WHERE id_puerta = puerta_id;
-    IF v_count = 0 THEN
-        RAISE_APPLICATION_ERROR(-20003, 'La puerta de embarque no existe.');
+    SELECT COUNT(*) INTO v_existe_puerta 
+    FROM puerta_embarque 
+    WHERE id_puerta = p_puerta_embarque_id_puerta;
+
+    IF v_existe_puerta = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'La puerta de embarque no existe.');
     END IF;
-    v_count := 0;
 
     -- Validar que la ruta exista
-    SELECT COUNT(*) INTO v_count FROM ruta WHERE id_ruta = ruta_id;
-    IF v_count = 0 THEN
-        RAISE_APPLICATION_ERROR(-20004, 'La ruta no existe.');
+    SELECT COUNT(*) INTO v_existe_ruta 
+    FROM ruta 
+    WHERE id_ruta = p_ruta_id_ruta;
+
+    IF v_existe_ruta = 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 'La ruta no existe.');
     END IF;
-    v_count := 0;
 
     -- Validar que la aerolínea exista
-    SELECT COUNT(*) INTO v_count FROM aerolinea WHERE id_aerolinea = aerolinea_id;
-    IF v_count = 0 THEN
-        RAISE_APPLICATION_ERROR(-20005, 'La aerolínea no existe.');
-    END IF;
-    v_count := 0;
+    SELECT COUNT(*) INTO v_existe_aerolinea 
+    FROM aerolinea 
+    WHERE id_aerolinea = p_aerolinea_id_aerolinea;
 
-    -- Validar tarifas lógicas para las clases
-    IF tarifa_primera_clase <= 0 THEN
-        RAISE_APPLICATION_ERROR(-20006, 'La tarifa de primera clase debe ser un valor positivo.');
+    IF v_existe_aerolinea = 0 THEN
+        RAISE_APPLICATION_ERROR(-20004, 'La aerolínea no existe.');
     END IF;
 
-    IF tarifa_clase_ejecutiva <= 0 THEN
-        RAISE_APPLICATION_ERROR(-20007, 'La tarifa de clase ejecutiva debe ser un valor positivo.');
+    -- Validar precios lógicos
+    IF p_tarifa_primera_clase < 0 OR p_tarifa_clase_ejecutiva < 0 OR p_tarifa_clase_economica < 0 THEN
+        v_tarifa_valida := FALSE;
     END IF;
 
-    IF tarifa_clase_economica <= 0 THEN
-        RAISE_APPLICATION_ERROR(-20008, 'La tarifa de clase económica debe ser un valor positivo.');
+    IF NOT v_tarifa_valida THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Las tarifas deben ser mayores o iguales a cero.');
     END IF;
 
-    -- Insertar el nuevo vuelo
-    INSERT INTO vuelo(no_vuelo, fecha_hora_salida, fecha_hora_llegada, estado, avion_id, puerta_id, ruta_id, aerolinea_id, tarifa_primera_clase, tarifa_clase_ejecutiva, tarifa_clase_economica)
-    VALUES (no_vuelo, fecha_hora_salida, fecha_hora_llegada, estado, avion_id, puerta_id, ruta_id, aerolinea_id, tarifa_primera_clase, tarifa_clase_ejecutiva, tarifa_clase_economica);
+    -- Validar que la fecha de llegada sea posterior a la fecha de salida
+    IF p_fecha_llegada <= p_fecha_salida THEN
+        RAISE_APPLICATION_ERROR(-20006, 'La fecha de llegada debe ser posterior a la fecha de salida.');
+    END IF;
 
-    DBMS_OUTPUT.PUT_LINE('Vuelo registrado exitosamente.');
+    -- Insertar el nuevo vuelo en la tabla vuelo
+    INSERT INTO vuelo (
+        no_vuelo,
+        fecha_salida,
+        vuelo_llegada,
+        estado,
+        avion_matricula,
+        ruta_id_ruta,
+        puerta_embarque_id_puerta,
+        aerolinea_id_aerolinea
+    ) VALUES (
+        p_no_vuelo,
+        p_fecha_salida,
+        p_fecha_llegada,
+        p_estado,
+        p_avion_matricula,
+        p_ruta_id_ruta,
+        p_puerta_embarque_id_puerta,
+        p_aerolinea_id_aerolinea
+    );
+
+    -- Insertar las tarifas correspondientes en la tabla tarifa
+    INSERT INTO tarifa (
+        vuelo_no_vuelo,
+        clase,
+        precio
+    ) VALUES (p_no_vuelo, 'Primera Clase', p_tarifa_primera_clase);
+    
+    INSERT INTO tarifa (
+        vuelo_no_vuelo,
+        clase,
+        precio
+    ) VALUES (p_no_vuelo, 'Clase Ejecutiva', p_tarifa_clase_ejecutiva);
+    
+    INSERT INTO tarifa (
+        vuelo_no_vuelo,
+        clase,
+        precio
+    ) VALUES (p_no_vuelo, 'Clase Económica', p_tarifa_clase_economica);
+
+    COMMIT; -- Confirmar la transacción
+
+    -- Mensaje de éxito
+    DBMS_OUTPUT.PUT_LINE('El vuelo ' || p_no_vuelo || ' se ha registrado exitosamente.');
 
 EXCEPTION
     WHEN OTHERS THEN
-        RAISE_APPLICATION_ERROR(-20009, 'Error al registrar el vuelo: ' || SQLERRM);
-END;
-/
+        ROLLBACK; -- Revertir cambios en caso de error
+        RAISE; -- Propagar el error
+END registrar_vuelo;
 
 
 -- ASIGNAR TRIPULACION
