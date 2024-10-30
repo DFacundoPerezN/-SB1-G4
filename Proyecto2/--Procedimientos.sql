@@ -350,7 +350,7 @@ BEGIN
         fecha_salida,
         vuelo_llegada,
         estado,
-        avion_matricula,
+        avion_id_avion,
         ruta_id_ruta,
         puerta_embarque_id_puerta,
         aerolinea_id_aerolinea
@@ -359,7 +359,7 @@ BEGIN
         p_fecha_salida,
         p_fecha_llegada,
         p_estado,
-        p_avion_matricula,
+        ( SELECT id_avion FROM avion WHERE id_avion = p_avion_matricula ),
         p_ruta_id_ruta,
         p_puerta_embarque_id_puerta,
         p_aerolinea_id_aerolinea
@@ -386,9 +386,6 @@ BEGIN
 
     COMMIT; -- Confirmar la transacción
 
-    -- Mensaje de éxito
-    DBMS_OUTPUT.PUT_LINE('El vuelo ' || p_no_vuelo || ' se ha registrado exitosamente.');
-
 EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK; -- Revertir cambios en caso de error
@@ -396,85 +393,88 @@ EXCEPTION
 END registrar_vuelo;
 
 
+
+
 -- ASIGNAR TRIPULACION
-CREATE OR REPLACE PROCEDURE AsignarTripulacion(
-    codigo_empleado IN NUMBER,
-    codigo_vuelo IN NUMBER
-) AS
-    v_aerolinea_vuelo NUMBER;
-    v_aerolinea_empleado NUMBER;
-    v_cargo VARCHAR2(50);
-    v_count NUMBER;
-    v_fecha_hora_salida DATE;
-    v_fecha_hora_llegada DATE;
-    v_pilotos NUMBER;
-    v_servidores NUMBER;
+CREATE OR REPLACE PROCEDURE asignar_tripulacion (
+    p_codigo_empleado IN INTEGER,
+    p_codigo_vuelo IN INTEGER
+) IS
+    v_aerolinea_id INTEGER;
+    v_tipo_cargo INTEGER;
+    v_num_pilotos INTEGER;
+    v_num_empleados INTEGER;
+
+    -- Verificar si el empleado existe y obtener su aerolínea y tipo de cargo
+    CURSOR c_empleado IS
+        SELECT e.aerolinea_id_aerolinea, e.cargo_id_cargo
+        FROM empleado e
+        WHERE e.id_empleado = p_codigo_empleado;
+
 BEGIN
-    -- Obtener la aerolínea del vuelo
-    SELECT aerolinea_id, fecha_hora_salida, fecha_hora_llegada 
-    INTO v_aerolinea_vuelo, v_fecha_hora_salida, v_fecha_hora_llegada
-    FROM vuelo 
-    WHERE no_vuelo = codigo_vuelo;
+    OPEN c_empleado;
+    FETCH c_empleado INTO v_aerolinea_id, v_tipo_cargo;
 
-    -- Obtener la aerolínea y cargo del empleado
-    SELECT aerolinea_id, cargo 
-    INTO v_aerolinea_empleado, v_cargo
-    FROM empleado 
-    WHERE id_empleado = codigo_empleado;
-
-    -- Validar que el empleado pertenece a la misma aerolínea que el vuelo
-    IF v_aerolinea_vuelo != v_aerolinea_empleado THEN
-        RAISE_APPLICATION_ERROR(-20001, 'El empleado no pertenece a la misma aerolínea que el vuelo.');
+    -- Validar que el empleado fue encontrado
+    IF c_empleado%NOTFOUND THEN
+        RAISE_APPLICATION_ERROR(-20001, 'El empleado no existe.');
     END IF;
 
-    -- Validar que el empleado no esté asignado a otro vuelo en el mismo horario
-    SELECT COUNT(*) INTO v_count
-    FROM vuelo_empleado ve
-    JOIN vuelo v ON ve.codigo_vuelo = v.no_vuelo
-    WHERE ve.codigo_empleado = codigo_empleado
-      AND ((v.fecha_hora_salida BETWEEN v_fecha_hora_salida AND v_fecha_hora_llegada)
-           OR (v.fecha_hora_llegada BETWEEN v_fecha_hora_salida AND v_fecha_hora_llegada));
-
-    IF v_count > 0 THEN
-        RAISE_APPLICATION_ERROR(-20002, 'El empleado ya está asignado a otro vuelo en el mismo horario.');
+    -- Verificar que el empleado no esté ya asignado a otro vuelo
+    IF EXISTS (SELECT 1 FROM tripulacion t WHERE t.empleado_id_empleado = p_codigo_empleado) THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El empleado ya está asignado a otro vuelo.');
     END IF;
 
-    -- Validar que no se puedan asignar empleados de ventanilla a los vuelos
-    IF v_cargo = 'ventanilla' THEN
-        RAISE_APPLICATION_ERROR(-20003, 'Los empleados de ventanilla no pueden ser asignados a vuelos.');
+    -- Verificar que el vuelo existe
+    IF NOT EXISTS (SELECT 1 FROM vuelo v WHERE v.no_vuelo = p_codigo_vuelo) THEN
+        RAISE_APPLICATION_ERROR(-20003, 'El vuelo no existe.');
     END IF;
 
-    -- Contar cuántos pilotos y servidores ya están asignados al vuelo
-    SELECT COUNT(CASE WHEN cargo = 'piloto' OR cargo = 'copiloto' THEN 1 END),
-           COUNT(CASE WHEN cargo = 'servidor' THEN 1 END)
-    INTO v_pilotos, v_servidores
-    FROM vuelo_empleado ve
-    JOIN empleado e ON ve.codigo_empleado = e.id_empleado
-    WHERE ve.codigo_vuelo = codigo_vuelo;
-
-    -- Validar que haya un mínimo de 2 pilotos (piloto y copiloto)
-    IF v_cargo IN ('piloto', 'copiloto') AND v_pilotos >= 2 THEN
-        RAISE_APPLICATION_ERROR(-20004, 'Ya hay suficientes pilotos asignados a este vuelo.');
+    -- Verificar que la aerolínea del vuelo coincida con la del empleado
+    IF NOT EXISTS (
+        SELECT 1
+        FROM vuelo v
+        WHERE v.no_vuelo = p_codigo_vuelo AND v.aerolinea_id_aerolinea = v_aerolinea_id
+    ) THEN
+        RAISE_APPLICATION_ERROR(-20004, 'La aerolínea del vuelo no coincide con la del empleado.');
     END IF;
 
-    -- Validar que haya un mínimo de 3 empleados como servidores
-    IF v_cargo = 'servidor' AND v_servidores >= 3 THEN
-        RAISE_APPLICATION_ERROR(-20005, 'Ya hay suficientes servidores asignados a este vuelo.');
+    -- Contar el número de pilotos y empleados asignados a ese vuelo
+    SELECT COUNT(*)
+    INTO v_num_pilotos
+    FROM tripulacion t
+    JOIN empleado e ON t.empleado_id_empleado = e.id_empleado
+    WHERE t.vuelo_no_vuelo = p_codigo_vuelo AND e.cargo_id_cargo IN (SELECT id_cargo FROM cargo WHERE cargo = 'Piloto');
+
+    SELECT COUNT(*)
+    INTO v_num_empleados
+    FROM tripulacion t
+    JOIN empleado e ON t.empleado_id_empleado = e.id_empleado
+    WHERE t.vuelo_no_vuelo = p_codigo_vuelo AND e.cargo_id_cargo NOT IN (SELECT id_cargo FROM cargo WHERE cargo = 'Ventanilla');
+
+    -- Validar requisitos de tripulación
+    IF v_num_pilotos < 2 THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Se requiere al menos 2 pilotos (un piloto y un copiloto) asignados al vuelo.');
     END IF;
 
-    -- Asignar el empleado al vuelo
-    INSERT INTO vuelo_empleado(codigo_empleado, codigo_vuelo)
-    VALUES (codigo_empleado, codigo_vuelo);
+    IF v_num_empleados < 3 THEN
+        RAISE_APPLICATION_ERROR(-20006, 'Se requieren al menos 3 empleados como servidores asignados al vuelo.');
+    END IF;
 
-    DBMS_OUTPUT.PUT_LINE('Empleado asignado correctamente al vuelo.');
+    -- Asignar al empleado a la tripulación
+    INSERT INTO tripulacion (vuelo_no_vuelo, empleado_id_empleado)
+    VALUES (p_codigo_vuelo, p_codigo_empleado);
+
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Empleado asignado correctamente a la tripulación.');
 
 EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        RAISE_APPLICATION_ERROR(-20006, 'El vuelo o el empleado no existen.');
     WHEN OTHERS THEN
-        RAISE_APPLICATION_ERROR(-20007, 'Error al asignar el empleado al vuelo: ' || SQLERRM);
-END;
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20007, 'Error al asignar el empleado a la tripulación: ' || SQLERRM);
+END asignar_tripulacion;
 /
+
 
 
 -- COMPRA DE BOLETOS
