@@ -84,3 +84,61 @@ BEGIN
     END IF;
 END;
 /
+
+-- OPCION 2
+SELECT 
+    e.id_empleado AS codigo,
+    e.nombre || ' ' || e.apellido AS nombre_completo,
+    e.fecha_nacimiento,
+    e.correo,
+    e.telefono,
+    e.direccion,
+    CASE 
+        WHEN e.salario > 0 THEN 'Activo'
+        ELSE 'Inactivo'
+    END AS estado
+FROM 
+    empleado e
+JOIN 
+    aerolinea a ON e.aerolinea_id_aerolinea = a.id_aerolinea
+WHERE 
+    a.id_aerolinea = 3;
+
+
+-- 4. Consulta de las rutas
+SELECT 
+    r.id_ruta AS id_ruta,
+    a1.nombre AS origen,
+    a2.nombre AS destino,
+    COUNT(v.no_vuelo) AS total_vuelos
+FROM 
+    ruta r
+JOIN 
+    aeropuerto a1 ON r.aeropuerto_id_aeropuerto = a1.id_aeropuerto
+JOIN 
+    aeropuerto a2 ON r.aeropuerto_id_aeropuerto2 = a2.id_aeropuerto
+JOIN 
+    vuelo v ON v.ruta_id_ruta = r.id_ruta
+GROUP BY 
+    r.id_ruta, a1.nombre, a2.nombre
+ORDER BY 
+    total_vuelos DESC
+FETCH FIRST 5 ROWS ONLY;
+
+
+-- 5. Consulta de las cancelaciones de reservas
+SELECT 
+    b.id_boleto AS "Id Boleto",
+    v.no_vuelo AS "Vuelo",
+    a.id_asientos AS "Asiento",
+    p.nombre || ' ' || p.apellido AS "Pasajero"
+FROM 
+    boleto b
+JOIN 
+    vuelo v ON b.vuelo_no_vuelo = v.no_vuelo
+JOIN 
+    asientos a ON b.asientos_id_asientos = a.id_asientos
+JOIN 
+    pasajero p ON b.pasajero_codigo_pasaporte = p.codigo_pasaporte
+WHERE 
+    b.estado = 'no disponible';
